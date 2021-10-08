@@ -91,11 +91,11 @@ fun timeForHalfWay(
     t2: Double, v2: Double,
     t3: Double, v3: Double
 ): Double {
-    val HalfWay = (v1 * t1 + v2 * t2 + v3 * t3)/2
+    val halfWay = (v1 * t1 + v2 * t2 + v3 * t3)/2
     return when {
-        HalfWay < t1 * v1 -> HalfWay / v1
-        HalfWay < t1 * v1 + t2 * v2 -> t1 + (HalfWay - t1 * v1) / v2
-        else -> t1 + t2 + (HalfWay - t1 * v1 - t2 * v2) / v3
+        halfWay < t1 * v1 -> halfWay / v1
+        halfWay < t1 * v1 + t2 * v2 -> t1 + (halfWay - t1 * v1) / v2
+        else -> t1 + t2 + (halfWay - t1 * v1 - t2 * v2) / v3
 
     }
 }
@@ -143,10 +143,10 @@ fun rookOrBishopThreatens(
     bishopX: Int, bishopY: Int
 ): Int {
     return when {
-        (rookX == kingX) && abs(kingX - bishopX ) == abs(kingY-bishopY) -> 3
-        (rookY == kingY) && (abs(kingX - bishopX ) == abs(kingY - bishopY)) -> 3
+        (rookX == kingX) && abs(kingX - bishopX) == abs(kingY - bishopY) -> 3
+        (rookY == kingY) && (abs(kingX - bishopX) == abs(kingY - bishopY)) -> 3
         (rookX == kingX) || (rookY == kingY) -> 1
-        abs(kingX-bishopX) == abs(kingY-bishopY) -> 2
+        abs(kingX - bishopX) == abs(kingY - bishopY) -> 2
         else -> 0
     }
 }
@@ -171,13 +171,17 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     return when {
-        (a < d) && (b > c) && (a < c) && (b < d) -> b - c
-        (a < c) && (a < d) && (d < b) && (d > a) -> d - c
-        (a < d) && (b > c) && (b > d) -> d-a
-        (c < a) && (b < d) -> b-a
-        (c > a) && (d < b) -> d-c
-        (a < d) && (b > c) && (a > c) -> b - a
-        (a < d) && (b == c) -> 0
+        (a <= d) && (b >= c) && (a <= c) && (b <= d) -> b - c
+        (a <= c) && (a <= d) && (d <= b) && (d >= a) -> d - c
+        (a <= d) && (b >= c) && (b >= d) -> d - a
+        (c <= a) && (b <= d) -> b - a
+        (c >= a) && (d <= b) -> d - c
+        (a <= d) && (b >= c) && (a >= c) -> b - a
+        (a <= d) && (b == c) -> 0
         else -> -1
     }
 }
+
+
+
+
