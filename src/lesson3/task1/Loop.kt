@@ -3,6 +3,7 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
+import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -80,7 +81,7 @@ fun digitNumber(n: Int): Int {
     do {
         count++
         number /= 10
-    } while (number > 0)
+    } while (number != 0)
     return count
 
 }
@@ -91,9 +92,20 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int =
-    if (n <= 2) 1
-    else fib(n - 1) + fib(n - 2)
+fun fib(n: Int): Int {
+    var x = 1
+    var y = 1
+    for (i in 1..n) {
+        if (i <= 2) {
+            x = 1
+            y = 1
+        } else {
+            x += y
+            y = x - y
+        }
+    }
+    return x
+}
 
 
 /**
@@ -150,6 +162,17 @@ fun collatzSteps(x: Int): Int {
     return count
 }
 
+fun NOD(m: Int, n: Int): Int {
+    var ch1 = m
+    var ch2 =n
+    while (ch1 != 0 && ch2 != 0) {
+        if (ch1 > ch2) {
+           ch1 %= ch2
+        } else ch2 %= ch1
+
+    }
+    return ch1 + ch2
+}
 
 /**
  * Средняя (3 балла)
@@ -157,19 +180,12 @@ fun collatzSteps(x: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    var number = 1
-    while (number % n != 0 || number % m != 0) {
-        number++
-
-    }
-    return number
-}
+fun lcm(m: Int, n: Int): Int = abs( m * n) / NOD(m , n)
 
 fun primeNumbers(m: Int, n: Int): Int {
     var ch1 = m
     var ch2 = n
-    while ( ch1 != 0 && ch2 != 0) {
+    while (ch1 != 0 && ch2 != 0) {
         if (ch1 > ch2) ch1 -= ch2
         else ch2 -= ch1
     }
