@@ -2,6 +2,9 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+import java.lang.NumberFormatException
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -74,7 +77,22 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val months = listOf("", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
+        "сентября", "октября", "ноября", "декабря")
+    val parts = str.split(" ")
+    try {
+        val days = parts[0].toInt()
+        val month = if (parts[1] in months) months.indexOf(parts[1]) else 0
+        val year = parts[2].toInt()
+        return if (month == 0 || parts.size != 3 || days > daysInMonth(month, year)) ""
+        else ("%02d.%02d.%04d".format(days, month, year))
+
+    }
+    catch (e: Exception) {
+        return ""
+    }
+}
 
 /**
  * Средняя (4 балла)
@@ -86,7 +104,23 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val months = listOf("", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
+        "сентября", "октября", "ноября", "декабря")
+    val parts = digital.split(".")
+    return try {
+        val days = parts[0].toInt()
+        val month = if (parts[1].toInt() > 0 && parts[1].toInt() < 13) parts[1].toInt() else 0
+        val year = parts[2].toInt()
+        return if (month == 0 || parts.size != 3 || days > daysInMonth(month, year)) ""
+        else String.format("%d %s %d", days, months[month], year)
+
+    }
+    catch (e: Exception) {
+        ""
+    }
+}
+
 
 /**
  * Средняя (4 балла)
@@ -162,7 +196,23 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    var max = -1.0
+    var res = ""
+    if (description == "") return ""
+    val allList = description.split("; ")
+    for (i in allList) {
+        val product = i.split(" ")
+        if (product.size != 2) return ""
+        val price = product[1]
+        if (price.toDouble() > max) {
+            max = price.toDouble()
+            res = product[0]
+        }
+
+    }
+    return res
+}
 
 /**
  * Сложная (6 баллов)
