@@ -78,18 +78,19 @@ fun main() {
  * входными данными.
  */
 fun dateStrToDigit(str: String): String {
-    val months = listOf("", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
-        "сентября", "октября", "ноября", "декабря")
+    val months = listOf(
+        "", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
+        "сентября", "октября", "ноября", "декабря"
+    )
     val parts = str.split(" ")
     try {
         val days = parts[0].toInt()
         val month = if (parts[1] in months) months.indexOf(parts[1]) else 0
         val year = parts[2].toInt()
         return if (month == 0 || parts.size != 3 || days > daysInMonth(month, year)) ""
-        else ("%02d.%02d.%04d".format(days, month, year))
+        else ("%02d.%02d.%d".format(days, month, year))
 
-    }
-    catch (e: Exception) {
+    } catch (e: Exception) {
         return ""
     }
 }
@@ -105,8 +106,10 @@ fun dateStrToDigit(str: String): String {
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String {
-    val months = listOf("", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
-        "сентября", "октября", "ноября", "декабря")
+    val months = listOf(
+        "", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
+        "сентября", "октября", "ноября", "декабря"
+    )
     val parts = digital.split(".")
     return try {
         val days = parts[0].toInt()
@@ -115,8 +118,7 @@ fun dateDigitToStr(digital: String): String {
         return if (month == 0 || parts.size != 3 || days > daysInMonth(month, year)) ""
         else String.format("%d %s %d", days, months[month], year)
 
-    }
-    catch (e: Exception) {
+    } catch (e: Exception) {
         ""
     }
 }
@@ -183,7 +185,18 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    var pr = 0
+    var result = 0
+    val words = str.split(" ")
+    for (i in 0 until words.size - 1) {
+        result += words[i].length
+        if (words[i].equals(words[i + 1], ignoreCase = true)) {
+            return result + pr - words[i].length
+        } else pr += 1
+    }
+    return -1
+}
 
 /**
  * Сложная (6 баллов)
