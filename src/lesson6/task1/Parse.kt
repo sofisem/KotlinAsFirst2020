@@ -77,18 +77,21 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
+val months = listOf(
+    "", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
+    "сентября", "октября", "ноября", "декабря")
+
 fun dateStrToDigit(str: String): String {
-    val months = listOf(
-        "", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
-        "сентября", "октября", "ноября", "декабря"
-    )
+
     val parts = str.split(" ")
+    if (parts.size != 3) return ""
     try {
+        val month = months.indexOf(parts[1])
         val days = parts[0].toInt()
-        val month = if (parts[1] in months) months.indexOf(parts[1]) else 0
         val year = parts[2].toInt()
-        return if (month == 0 || parts.size != 3 || days > daysInMonth(month, year)) ""
-        else ("%02d.%02d.%d".format(days, month, year))
+        return if (days <= daysInMonth(month, year) && parts[1] in months) "%02d.%02d.%d".format(days, month, year)
+        else ""
+
 
     } catch (e: Exception) {
         return ""
@@ -106,10 +109,6 @@ fun dateStrToDigit(str: String): String {
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String {
-    val months = listOf(
-        "", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
-        "сентября", "октября", "ноября", "декабря"
-    )
     val parts = digital.split(".")
     return try {
         val days = parts[0].toInt()
